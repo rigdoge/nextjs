@@ -5,11 +5,9 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn.sanity.io',
+        pathname: '**',
       },
     ],
-  },
-  experimental: {
-    appDir: true,
   },
 }
 

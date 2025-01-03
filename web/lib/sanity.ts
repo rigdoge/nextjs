@@ -1,32 +1,52 @@
-import { createClient } from '@sanity/client'
-import imageUrlBuilder from '@sanity/image-url'
+import { createClient } from 'next-sanity'
 
 export const client = createClient({
-  projectId: '3kr99v3e',
-  dataset: 'production',
-  apiVersion: '2024-01-01',
-  useCdn: true,
-  token: process.env.SANITY_WRITE_TOKEN
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+  apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-01-01',
+  useCdn: false,
 })
 
-const builder = imageUrlBuilder(client)
-
-export function urlForImage(source: any) {
-  return builder.image(source)
+export async function getPoem(slug: string) {
+  return client.fetch(
+    `*[_type == "poem" && slug.current == $slug][0]{
+      title,
+      content,
+      "author": author->name,
+      "slug": slug.current
+    }`,
+    { slug }
+  )
 }
 
 export async function getAllPoems() {
-  const query = `*[_type == "poem"]{
-    title,
-    slug,
-    content[]{
-      text,
-      pinyin
-    },
-    author->{name},
-    translation,
-    appreciation
-  }`
-  
-  return await client.fetch(query)
+  return client.fetch(
+    `*[_type == "poem"]{
+      title,
+      "author": author->name,
+      "slug": slug.current
+    }`
+  )
+}
+
+export async function getPost(slug: string) {
+  return client.fetch(
+    `*[_type == "post" && slug.current == $slug][0]{
+      title,
+      content,
+      "author": author->name,
+      "slug": slug.current
+    }`,
+    { slug }
+  )
+}
+
+export async function getAllPosts() {
+  return client.fetch(
+    `*[_type == "post"]{
+      title,
+      "author": author->name,
+      "slug": slug.current
+    }`
+  )
 } 
