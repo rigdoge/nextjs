@@ -1,0 +1,8 @@
+{"_type": "poet", "name": "李白", "slug": {"_type": "slug", "current": "li-bai"}, "birthYear": 701, "deathYear": 762, "biography": "李白（701年－762年），字太白，号青莲居士，唐代伟大的浪漫主义诗人，被后人誉为"诗仙"。"}
+{"_type": "poet", "name": "王之涣", "slug": {"_type": "slug", "current": "wang-zhi-huan"}, "birthYear": 688, "deathYear": 742, "biography": "王之涣（688年－742年），唐代著名诗人，善于写景抒情。"}
+{"_type": "poet", "name": "孟浩然", "slug": {"_type": "slug", "current": "meng-hao-ran"}, "birthYear": 689, "deathYear": 740, "biography": "孟浩然（689年－740年），唐代著名山水田园诗人，与王维并称"王孟"。"}
+{"_type": "tag", "name": "抒情", "description": "表达感情的诗歌"}
+{"_type": "tag", "name": "思乡", "description": "描写思念故乡的诗歌"}
+{"_type": "tag", "name": "登高", "description": "登高望远的诗歌"}
+{"_type": "tag", "name": "写景", "description": "描写自然景色的诗歌"}
+{"_type": "tag", "name": "田园", "description": "描写田园生活的诗歌"} 
