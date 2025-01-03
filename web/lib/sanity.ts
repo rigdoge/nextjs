@@ -11,9 +11,14 @@ export async function getPoem(slug: string) {
   return client.fetch(
     `*[_type == "poem" && slug.current == $slug][0]{
       title,
-      content,
+      content[]{
+        text,
+        pinyin
+      },
       "author": author->name,
-      "slug": slug.current
+      "slug": slug.current,
+      translation,
+      appreciation
     }`,
     { slug }
   )
@@ -21,10 +26,14 @@ export async function getPoem(slug: string) {
 
 export async function getAllPoems() {
   return client.fetch(
-    `*[_type == "poem"]{
+    `*[_type == "poem"] | order(_createdAt desc) {
       title,
       "author": author->name,
-      "slug": slug.current
+      "slug": slug.current,
+      content[0]{
+        text,
+        pinyin
+      }
     }`
   )
 }
