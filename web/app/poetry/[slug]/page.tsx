@@ -1,5 +1,3 @@
-'use client'
-
 import { getPoem } from '@/lib/sanity'
 
 interface PageProps {
