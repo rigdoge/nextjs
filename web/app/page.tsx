@@ -1,8 +1,19 @@
-import { getAllPoems } from '@/lib/sanity'
+import { getPoems } from '@/lib/sanity'
 import Link from 'next/link'
 
+interface Poem {
+  _id: string
+  title: string
+  slug: { current: string }
+  author: { name: string }
+  content: Array<{
+    text: string
+    pinyin?: string
+  }>
+}
+
 export default async function Home() {
-  const poems = await getAllPoems()
+  const poems = await getPoems() as Poem[]
 
   return (
     <main className="min-h-screen">
@@ -32,10 +43,10 @@ export default async function Home() {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {poems.map((poem: any) => (
+            {poems.map((poem) => (
               <Link
-                key={poem.title}
-                href={`/poetry/${poem.slug?.current}`}
+                key={poem._id}
+                href={`/poetry/${poem.slug.current}`}
                 className="group relative overflow-hidden rounded-2xl bg-white/5 p-6 hover:bg-white/10 transition-colors"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -49,7 +60,11 @@ export default async function Home() {
                 </p>
                 
                 <div className="text-gray-300 line-clamp-3 relative">
-                  {poem.content?.map((line: any) => line.text).join('\n')}
+                  {poem.content?.map((line, index) => (
+                    <div key={index} className="mb-1">
+                      <p className="text-base">{line.text}</p>
+                    </div>
+                  ))}
                 </div>
               </Link>
             ))}

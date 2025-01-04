@@ -7,55 +7,46 @@ export const client = createClient({
   useCdn: false,
 })
 
-export async function getPoem(slug: string) {
-  return client.fetch(
-    `*[_type == "poem" && slug.current == $slug][0]{
-      title,
-      content[]{
-        text,
-        pinyin
-      },
-      "author": author->name,
-      "slug": slug.current,
-      translation,
-      appreciation
-    }`,
-    { slug }
-  )
+export async function getPoems() {
+  return client.fetch(`*[_type == "poem"]{
+    _id,
+    title,
+    slug,
+    author->{name},
+    content[]{text, pinyin}
+  }`)
 }
 
-export async function getAllPoems() {
-  return client.fetch(
-    `*[_type == "poem"] | order(_createdAt desc) {
-      title,
-      "author": author->name,
-      "slug": slug.current,
-      content[0]{
-        text,
-        pinyin
-      }
-    }`
-  )
+export async function getPoem(slug: string) {
+  return client.fetch(`*[_type == "poem" && slug.current == $slug][0]{
+    _id,
+    title,
+    slug,
+    author->{name},
+    content[]{text, pinyin},
+    translation,
+    appreciation
+  }`, { slug })
 }
 
 export async function getPost(slug: string) {
-  return client.fetch(
-    `*[_type == "post" && slug.current == $slug][0]{
-      title,
-      content,
-      "author": author->name,
-      "slug": slug.current
-    }`,
-    { slug }
-  )
+  return client.fetch(`*[_type == "post" && slug.current == $slug][0]{
+    _id,
+    title,
+    slug,
+    author,
+    content,
+    mainImage
+  }`)
 }
 
 export async function getAllPosts() {
-  return client.fetch(
-    `*[_type == "post"]{
-      title,
-      "author": author->name,
-      "slug": slug.current
-    }`
-  )
+  return client.fetch(`*[_type == "post"]{
+    _id,
+    title,
+    slug,
+    author,
+    content,
+    mainImage
+  }`)
 } 
