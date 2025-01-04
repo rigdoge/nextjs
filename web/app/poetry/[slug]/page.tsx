@@ -3,9 +3,10 @@ import { PortableText } from '@portabletext/react'
 import { PoemLine } from '@/components/poem-line'
 import { PinyinToggle } from '@/components/pinyin-toggle'
 
+export const dynamicParams = true
+
 export default async function PoemPage({ params }: { params: { slug: string } }) {
-  const slug = params.slug
-  const poem = await getPoem(slug)
+  const poem = await getPoem(params.slug)
 
   if (!poem) {
     return (

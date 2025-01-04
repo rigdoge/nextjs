@@ -1,20 +1,19 @@
 import {defineConfig} from 'sanity'
-import {deskTool} from 'sanity/desk'
-import {visionTool} from '@sanity/vision'
+import {structureTool} from 'sanity/structure'
 import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'My Next.js Blog',
+  title: '唐诗鉴赏',
 
   projectId: '3kr99v3e',
   dataset: 'production',
 
-  plugins: [deskTool(), visionTool()],
+  plugins: [structureTool()],
 
   schema: {
     types: schemaTypes,
   },
 
-  basePath: '/'
+  basePath: '/studio'
 })

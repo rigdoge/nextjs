@@ -1,17 +1,17 @@
 export default {
   name: 'poem',
-  title: '唐诗',
+  title: '诗歌',
   type: 'document',
   fields: [
     {
       name: 'title',
-      title: '诗名',
+      title: '标题',
       type: 'string',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'slug',
-      title: 'Slug',
+      title: '链接',
       type: 'slug',
       options: {
         source: 'title',
@@ -27,49 +27,28 @@ export default {
       validation: (Rule: any) => Rule.required(),
     },
     {
-      name: 'dynasty',
-      title: '朝代',
-      type: 'string',
-      options: {
-        list: [
-          { title: '唐朝', value: 'tang' },
-        ],
-      },
-      initialValue: 'tang',
-    },
-    {
       name: 'content',
-      title: '诗句',
+      title: '内容',
       type: 'array',
-      of: [{
-        type: 'object',
-        fields: [
-          {
-            name: 'text',
-            title: '文字',
-            type: 'string',
-            validation: (Rule: any) => Rule.required(),
-          },
-          {
-            name: 'pinyin',
-            title: '拼音',
-            type: 'string',
-          }
-        ],
-        preview: {
-          select: {
-            text: 'text',
-            pinyin: 'pinyin'
-          },
-          prepare({ text, pinyin }: any) {
-            return {
-              title: text,
-              subtitle: pinyin
-            }
-          }
-        }
-      }],
-      validation: (Rule: any) => Rule.required().min(1),
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'text',
+              title: '原文',
+              type: 'string',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'pinyin',
+              title: '拼音',
+              type: 'string',
+            },
+          ],
+        },
+      ],
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'translation',
@@ -80,40 +59,18 @@ export default {
       name: 'appreciation',
       title: '赏析',
       type: 'array',
-      of: [{ 
-        type: 'block',
-        styles: [
-          {title: '正文', value: 'normal'},
-          {title: '标题', value: 'h3'}
-        ],
-      }],
-    },
-    {
-      name: 'tags',
-      title: '标签',
-      type: 'array',
-      of: [{ type: 'reference', to: { type: 'tag' } }],
-    },
-    {
-      name: 'backgroundImage',
-      title: '配图',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
+      of: [{ type: 'block' }],
     },
   ],
   preview: {
     select: {
       title: 'title',
       author: 'author.name',
-      media: 'backgroundImage',
     },
-    prepare({ title, author, media }: any) {
+    prepare({ title, author }: { title: string; author: string }) {
       return {
         title,
-        subtitle: author,
-        media,
+        subtitle: author ? `作者：${author}` : '',
       }
     },
   },
